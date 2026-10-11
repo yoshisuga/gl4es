@@ -366,7 +366,12 @@ void APIENTRY_GL4ES gl4es_glEnableClientStateIndexed(GLenum array, GLuint index)
         errorShim(GL_INVALID_ENUM);
     }
 }
+#ifdef __APPLE__
+// iOS spike: Apple's toolchain has no symbol aliases
+void APIENTRY_GL4ES gl4es_glEnableClientStatei(GLenum array, GLuint index) { gl4es_glEnableClientStateIndexed(array, index); }
+#else
 AliasDecl(void,gl4es_glEnableClientStatei,(GLenum array, GLuint index),gl4es_glEnableClientStateIndexed);
+#endif
 
 void APIENTRY_GL4ES gl4es_glDisableClientStateIndexed(GLenum array, GLuint index) {
     DBG(printf("glDisableClientStateIndexed(%s, %d)\n", PrintEnum(array), index);)
@@ -380,7 +385,12 @@ void APIENTRY_GL4ES gl4es_glDisableClientStateIndexed(GLenum array, GLuint index
         errorShim(GL_INVALID_ENUM);
     }
 }
+#ifdef __APPLE__
+// iOS spike: Apple's toolchain has no symbol aliases
+void APIENTRY_GL4ES gl4es_glDisableClientStatei(GLenum array, GLuint index) { gl4es_glDisableClientStateIndexed(array, index); }
+#else
 AliasDecl(void,gl4es_glDisableClientStatei,(GLenum array, GLuint index),gl4es_glDisableClientStateIndexed);
+#endif
 
 void APIENTRY_GL4ES gl4es_glEnableVertexArray(GLuint vaobj, GLenum array) {
     DBG(printf("glEnableVertexArray(%d, %s)\n", vaobj, PrintEnum(array));)
