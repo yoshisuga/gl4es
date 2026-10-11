@@ -508,6 +508,10 @@ char* ConvertShader(const char* pEntry, int isVertex, shaderconv_need_t *need)
   #endif
   //sprintf(GLESFullHeader, GLESHeader, (wanthighp && hardext.highp==1 && !isVertex)?GLESUseFragHighp:"", (wanthighp)?"highp":"mediump", (wanthighp)?"highp":"mediump");
   sprintf(GLESFullHeader, GLESHeader[versionHeader], "", (wanthighp)?"highp":"mediump", (wanthighp)?"highp":"mediump");
+  // Every vertex shader computes gl_Position the same way for the same input:
+  // multi-pass drawing (a stage drawn over another with GL_EQUAL depth, decals)
+  // goes through different generated shaders, whose depths must agree exactly
+  if(isVertex) strcat(GLESFullHeader, "invariant gl_Position;\n");
 
   int tmpsize = strlen(pBuffer)*2+strlen(GLESFullHeader)+100;
   char* Tmp = (char*)calloc(1, tmpsize);
